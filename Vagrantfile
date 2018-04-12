@@ -38,13 +38,17 @@ Vagrant.configure("2") do |config|
     config.ssh.insert_key = false
 
   config.vm.provision "puppet" do |puppet|
-    puppet.options = '--verbose --debug'
+#    puppet.options = '--verbose --debug'
     puppet.module_path = "puppet/modules"
     puppet.manifests_path = "puppet/manifests"
     puppet.manifest_file = "site.pp"
-
   end
-
+#N.B. this will try to create the db again etc... if vagrant provision is run more than once, and give an error -> use vagrant destroy/up
+  config.vm.provision "shell", inline: <<-SHELL
+    #!/bin/bash
+    set -x
+    sudo mysql < /data/dbdata.sql
+  SHELL
   end
 end
 
