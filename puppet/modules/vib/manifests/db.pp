@@ -7,7 +7,7 @@ class vib::db {
     ensure => installed,
   } ->
 
-# ensure mariadb service is running
+# ensure mariadb service is enabled and running
   service { 'mariadb':
     ensure => running,
     enable => true,
@@ -22,6 +22,8 @@ class vib::db {
     ensure => present,
     source => 'puppet:///modules/vib/dbdata.sql',
   }
+
 }
+
 # EOF
 
