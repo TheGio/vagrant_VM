@@ -7,10 +7,23 @@ class vib::web {
     ensure => installed,
   } ->
 
-# ensure httpd service is running
+# ensure httpd service is enabled and running
   service { 'httpd':
     ensure => running,
     enable => true,
+  } 
+
+# install php package
+  package { 'php':
+    ensure => installed,
+  } ->
+
+# index.php/app file
+  file { '/var/www/html/index.php':
+    ensure => file,
+    source => 'puppet:///modules/vib/index.php',
+    require => Package['httpd'],
+#    notify => Service['httpd'],
   }
 
 }
