@@ -3,11 +3,6 @@
 
 Vagrant.require_version ">= 1.7.0"
 
-hosts = {
-  :default      => { autostart: true, box: 'hashicorp-vagrant/centos-7.4'}
-}
-
-
 Vagrant.configure("2") do |config|
   config.vm.provider "virtualbox" do |vb|
 #    SharedFoldersEnableSymlinksCreate  = false
