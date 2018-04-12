@@ -5,14 +5,14 @@
 # configures the configuration version (we support older styles for
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
-Vagrant.configure("2") do |config|
+#Vagrant.configure("2") do |config|
   # The most common configuration options are documented and commented below.
   # For a complete reference, please see the online documentation at
   # https://docs.vagrantup.com.
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
-  config.vm.box = "base"
+#  config.vm.box = "base"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -67,4 +67,47 @@ Vagrant.configure("2") do |config|
   #   apt-get update
   #   apt-get install -y apache2
   # SHELL
+#end
+
+Vagrant.require_version ">= 1.7.0"
+
+hosts = {
+  :default      => { autostart: true, box: 'hashicorp-vagrant/centos-7.4'}
+#  :default      => { autostart: true, box: 'hashicorp/precise64'}
+}
+
+#boxes = {
+#  'centos.box' => 'https://app.vagrantup.com/ubuntu/boxes/hashicorp-vagrant/centos-7.4'
+#}
+
+
+Vagrant.configure("2") do |config|
+#  config.vm.box = "base"
+
+  config.vm.provider "virtualbox" do |vb|
+#    SharedFoldersEnableSymlinksCreate  = false
+    config.vm.box_check_update = false
+#    config.vm.box = "hashicorp/precise64"
+    config.vm.box = "hashicorp-vagrant/centos-7.4"
+# Port mapping TEST for web access "localhost:8080" maps to port 80 on the guest machine, as some OSs prevent using ports < 1024
+    config.vm.network :forwarded_port, guest: 80, host: 8080, auto_correct: true
+# django  port
+#    config.vm.network :forwarded_port, guest: 8000, host: 8000, auto_correct: true
+#    config.vm.network :forwarded_port, guest: 22, host: 2222
+
+    vb.name = "default"
+    vb.memory = 1024
+#    vb.memory = 2048
+    vb.cpus = 1
+
+  # Disable the new default behavior introduced in Vagrant 1.7, to
+  # ensure that all Vagrant machines will use the same SSH key pair.
+  # See https://github.com/mitchellh/vagrant/issues/5005
+    config.ssh.insert_key = false
+
+#  config.vm.provision "puppet" do |puppet|
+#  end
+
+  end
 end
+
