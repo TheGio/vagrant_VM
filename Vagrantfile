@@ -25,7 +25,7 @@ Vagrant.configure("2") do |config|
   # ensure that all Vagrant machines will use the same SSH key pair.
   # See https://github.com/mitchellh/vagrant/issues/5005
     config.ssh.insert_key = false
-
+end
   config.vm.provision "puppet" do |puppet|
 #    puppet.options = '--verbose --debug'
     puppet.module_path = "puppet/modules"
@@ -33,11 +33,10 @@ Vagrant.configure("2") do |config|
     puppet.manifest_file = "site.pp"
   end
 #N.B. this will try to create the db again etc... if vagrant provision is run more than once, and give an error -> use vagrant destroy/up
-#  config.vm.provision "shell", inline: <<-SHELL
-#    #!/bin/bash
+  config.vm.provision "shell", inline: <<-SHELL
+    #!/bin/bash
 #    set -x
-#    sudo mysql < /data/dbdata.sql
-#  SHELL
-  end
+    sudo mysql < /data/dbdata.sql
+  SHELL
 end
 

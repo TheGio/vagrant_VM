@@ -18,6 +18,11 @@ class vib::web {
     ensure => installed,
   } ->
 
+#add support for mysql
+  package { 'php-mysqli':
+    ensure => installed,
+  } ->
+
 # index.php/app file
   file { '/var/www/html/index.php':
     notify => Service['httpd'],
