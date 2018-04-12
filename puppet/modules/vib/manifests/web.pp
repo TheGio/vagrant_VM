@@ -20,10 +20,10 @@ class vib::web {
 
 # index.php/app file
   file { '/var/www/html/index.php':
+    notify => Service['httpd'],
     ensure => file,
     source => 'puppet:///modules/vib/index.php',
     require => Package['httpd'],
-#    notify => Service['httpd'],
   }
 
 }
